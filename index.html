@@ -1,64 +1,626 @@
-<div id="cookieOverlay" style="
-  position:fixed;
-  top:0;
-  left:0;
-  width:100vw;
-  height:100vh;
-  background:rgba(0,0,0,0.6);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-">
-  <div style="
-    background-color:#ffffff;
-    width:100%;
-    max-width:780px;
-    margin:20px;
-    padding:40px 50px;
-    border:6px solid #3d54b5;
-    border-radius:14px;
-    box-shadow:0 4px 20px rgba(0,0,0,0.3);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:24px;
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PasavogInfo — Guía informativa para agendar tu cita de pasaporte</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#142B4D;
+    --navy-dark:#0B1930;
+    --paper:#ECE6D6;
+    --paper-light:#F4EFE2;
+    --brass:#A9824C;
+    --brass-light:#C9A96B;
+    --burgundy:#7A2331;
+    --ink:#201C16;
+    --sage:#55705A;
+    --line:rgba(32,28,22,0.16);
+    --display:'Fraunces', serif;
+    --body:'IBM Plex Sans', sans-serif;
+    --mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  a{color:var(--navy);}
+  .wrap{max-width:900px; margin:0 auto; padding:0 28px;}
+
+  /* ---------- perforated divider (ticket/passport page edge) ---------- */
+  .perf{
+    height:14px;
+    background-image:radial-gradient(circle, var(--paper) 3px, transparent 3.5px);
+    background-size:20px 14px;
+    background-position:center;
+    background-color:var(--navy);
+  }
+  .perf.light{background-color:var(--paper-light);}
+  .perf.navy-on-paper{background-color:var(--paper);}
+  .perf-top{background-color:var(--paper); }
+
+  /* ---------- top notice ---------- */
+  .notice{
+    background:var(--navy-dark);
+    color:var(--paper-light);
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.03em;
     text-align:center;
-    box-sizing:border-box;
-  ">
-    <h2 style="
-      margin:0;
-      font-family:'Hanken Grotesk', Arial, sans-serif;
-      font-weight:400;
-      font-size:clamp(36px, 7vw, 72px);
-      line-height:1.1;
-      color:#0b1a14;
-    ">
-      Configuración<br>de cookies
-    </h2>
+    padding:9px 16px;
+  }
+  .notice b{color:var(--brass-light);}
 
-    <p style="
-      margin:0;
-      max-width:620px;
-      font-family:Arial, sans-serif;
-      font-size:clamp(16px, 2.4vw, 22px);
-      line-height:1.9;
-      color:#333333;
-    ">
-      Este sitio web utiliza cookies para mejorar tu experiencia de navegación, analizar el tráfico y ofrecer contenidos personalizados. Al hacer clic en "Aceptar", autorizas el uso de cookies.
-    </p>
+  /* ---------- header / bio-data page ---------- */
+  header.hero{
+    background:var(--navy);
+    color:var(--paper-light);
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-inner{
+    padding:56px 28px 64px;
+    max-width:900px;
+    margin:0 auto;
+    position:relative;
+  }
+  nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:56px;
+    flex-wrap:wrap;
+    gap:14px;
+  }
+  .brand{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:22px;
+    letter-spacing:0.01em;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .brand .mark{
+    width:30px; height:30px;
+    border:1.5px solid var(--brass-light);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+  }
+  nav .links{
+    display:flex; gap:22px; flex-wrap:wrap;
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+  }
+  nav .links a{color:var(--paper-light); text-decoration:none; opacity:0.8; border-bottom:1px solid transparent; padding-bottom:2px;}
+  nav .links a:hover, nav .links a:focus-visible{opacity:1; border-color:var(--brass-light);}
 
-    <button onclick="(function(){window.location.href='https://gh.xovmyyn.com/'})()" style="
-      background-color:#3d54b5;
-      color:#ffffff;
-      border:3px solid #000000;
-      border-radius:8px;
-      padding:16px 40px;
-      font-family:Arial, sans-serif;
-      font-size:clamp(18px, 2.6vw, 24px);
-      cursor:pointer;
-    ">Aceptar</button>
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--brass-light);
+    margin-bottom:18px;
+  }
+  h1{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:clamp(34px, 6vw, 58px);
+    line-height:1.05;
+    max-width:16ch;
+    letter-spacing:-0.01em;
+  }
+  .hero-sub{
+    margin-top:22px;
+    max-width:52ch;
+    font-size:17px;
+    color:rgba(244,239,226,0.82);
+  }
+  .hero-cta{
+    margin-top:34px;
+    display:flex; gap:16px; flex-wrap:wrap; align-items:center;
+  }
+  .btn{
+    font-family:var(--body);
+    font-weight:600;
+    font-size:14.5px;
+    padding:13px 26px;
+    border-radius:3px;
+    text-decoration:none;
+    display:inline-block;
+    border:1.5px solid transparent;
+    cursor:pointer;
+  }
+  .btn-primary{background:var(--brass); color:var(--navy-dark);}
+  .btn-primary:hover, .btn-primary:focus-visible{background:var(--brass-light);}
+  .btn-ghost{color:var(--paper-light); border-color:rgba(244,239,226,0.4);}
+  .btn-ghost:hover, .btn-ghost:focus-visible{border-color:var(--brass-light); color:var(--brass-light);}
+
+  /* signature element: the digital seal ("huella / sello digital") */
+  .seal{
+    position:absolute;
+    right:28px;
+    top:56px;
+    width:150px; height:150px;
+    display:none;
+  }
+  @media(min-width:760px){ .seal{display:block;} }
+  .seal svg{width:100%; height:100%;}
+  .seal-ring{ animation:rotate 34s linear infinite; transform-origin:75px 75px; }
+  @keyframes rotate{ to{ transform:rotate(360deg); } }
+
+  /* ---------- disclaimer banner ---------- */
+  .disclaimer{
+    background:var(--burgundy);
+    border-top:4px solid var(--navy-dark);
+    border-bottom:4px solid var(--navy-dark);
+  }
+  .disclaimer .wrap{
+    padding:34px 28px;
+    display:flex;
+    gap:22px;
+    align-items:flex-start;
+    color:var(--paper-light);
+  }
+  .disclaimer .ico{
+    flex:none; width:44px; height:44px; margin-top:2px;
+    border:2px solid var(--paper-light); border-radius:50%;
+    color:var(--paper-light); font-family:var(--display); font-weight:700;
+    display:flex; align-items:center; justify-content:center; font-size:22px;
+  }
+  .disclaimer .label{
+    font-family:var(--mono); font-size:12.5px; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--brass-light); margin-bottom:8px;
+  }
+  .disclaimer h4{
+    font-family:var(--display); font-weight:700; font-size:21px;
+    color:var(--paper-light); margin-bottom:10px; line-height:1.25;
+  }
+  .disclaimer p{font-size:15px; color:rgba(244,239,226,0.9); max-width:70ch;}
+  .disclaimer strong{color:var(--brass-light);}
+
+  /* ---------- sections ---------- */
+  section{padding:76px 0;}
+  .section-head{margin-bottom:44px; max-width:60ch;}
+  .kicker{
+    font-family:var(--mono); font-size:12.5px; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--burgundy); margin-bottom:10px;
+  }
+  h2{
+    font-family:var(--display); font-weight:600;
+    font-size:clamp(26px,4vw,36px);
+    letter-spacing:-0.01em;
+  }
+  .section-head p{margin-top:14px; color:rgba(32,28,22,0.72); font-size:16px;}
+
+  /* ---------- steps as visa stamps ---------- */
+  .steps{
+    display:grid;
+    gap:0;
+  }
+  .step{
+    display:grid;
+    grid-template-columns:96px 1fr;
+    gap:24px;
+    padding:30px 0;
+    border-bottom:1px dashed var(--line);
+    align-items:start;
+  }
+  .step:last-child{border-bottom:none;}
+  .stamp{
+    width:76px; height:76px;
+    border:2px solid var(--burgundy);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    transform:rotate(-8deg);
+    position:relative;
+  }
+  .step:nth-child(even) .stamp{transform:rotate(6deg); border-color:var(--navy);}
+  .stamp .num{
+    font-family:var(--display); font-weight:700; font-size:26px;
+    color:var(--burgundy);
+  }
+  .step:nth-child(even) .stamp .num{color:var(--navy);}
+  .step h3{
+    font-family:var(--display); font-weight:600; font-size:20px; margin-bottom:8px;
+  }
+  .step p{color:rgba(32,28,22,0.74); font-size:15.5px; max-width:58ch;}
+  .step .tip{
+    margin-top:10px;
+    font-family:var(--mono); font-size:12.5px; color:var(--sage);
+    letter-spacing:0.02em;
+  }
+
+  /* ---------- requirements checklist ---------- */
+  .req-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:2px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .req-card{
+    background:var(--paper-light);
+    padding:24px;
+  }
+  .req-card .tag{
+    font-family:var(--mono); font-size:11.5px; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--brass);
+    background:rgba(169,130,76,0.12);
+    display:inline-block; padding:3px 8px; border-radius:2px;
+    margin-bottom:12px;
+  }
+  .req-card h4{font-family:var(--display); font-weight:600; font-size:17px; margin-bottom:8px;}
+  .req-card p{font-size:14.5px; color:rgba(32,28,22,0.7);}
+
+  /* ---------- faq ---------- */
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-item summary{
+    cursor:pointer;
+    list-style:none;
+    padding:22px 0;
+    font-family:var(--display); font-weight:600; font-size:18px;
+    display:flex; justify-content:space-between; align-items:center; gap:20px;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{
+    content:'+';
+    font-family:var(--body); font-weight:400; font-size:24px; color:var(--burgundy);
+    flex:none;
+    transition:transform 0.2s ease;
+  }
+  .faq-item[open] summary::after{ transform:rotate(45deg); }
+  .faq-item .a{padding-bottom:22px; color:rgba(32,28,22,0.74); font-size:15.5px; max-width:64ch;}
+
+  /* ---------- legal sections ---------- */
+  .legal{background:var(--paper-light);}
+  .legal h3{
+    font-family:var(--display); font-weight:600; font-size:18px;
+    margin-top:28px; margin-bottom:10px; color:var(--navy);
+  }
+  .legal h3:first-of-type{margin-top:0;}
+  .legal p, .legal li{font-size:14.5px; color:rgba(32,28,22,0.76); margin-bottom:8px;}
+  .legal ul{padding-left:20px; margin-bottom:8px;}
+  .legal-updated{
+    font-family:var(--mono); font-size:12px; color:var(--brass);
+    letter-spacing:0.04em; margin-bottom:24px; display:inline-block;
+  }
+  .legal-box{
+    background:var(--paper);
+    border:1px solid var(--line);
+    padding:32px;
+  }
+  @media(min-width:640px){ .legal-box{padding:40px;} }
+  .legal-cols{display:grid; gap:40px;}
+  @media(min-width:820px){ .legal-cols{grid-template-columns:1fr 1fr;} }
+
+  /* ---------- footer ---------- */
+  footer{background:var(--navy-dark); color:rgba(244,239,226,0.72);}
+  footer .wrap{padding:48px 28px 36px;}
+  footer .foot-top{
+    display:flex; justify-content:space-between; gap:32px; flex-wrap:wrap;
+    padding-bottom:28px; border-bottom:1px solid rgba(244,239,226,0.14);
+    margin-bottom:22px;
+  }
+  footer .brand{color:var(--paper-light); margin-bottom:10px;}
+  footer .foot-desc{max-width:38ch; font-size:14px;}
+  footer .foot-links{display:flex; gap:40px; flex-wrap:wrap;}
+  footer .foot-links h5{
+    font-family:var(--mono); font-size:11.5px; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--brass-light); margin-bottom:12px;
+  }
+  footer .foot-links a{
+    display:block; color:rgba(244,239,226,0.72); text-decoration:none;
+    font-size:14px; margin-bottom:8px;
+  }
+  footer .foot-links a:hover, footer .foot-links a:focus-visible{color:var(--paper-light);}
+  footer .fine{font-family:var(--mono); font-size:11.5px; color:rgba(244,239,226,0.5); line-height:1.7;}
+
+  .skip-link{
+    position:absolute; left:-999px; top:0; background:var(--brass); color:var(--navy-dark);
+    padding:10px 16px; z-index:100;
+  }
+  .skip-link:focus{left:12px; top:12px;}
+
+  :focus-visible{outline:2px solid var(--brass); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Saltar al contenido</a>
+
+<div class="notice"><b>Sitio informativo independiente</b> · No es un portal oficial ni gubernamental · Carrera 34 #12-78</div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <nav aria-label="Navegación principal">
+      <div class="brand"><span class="mark" aria-hidden="true">✦</span> PasavogInfo</div>
+      <div class="links">
+        <a href="#pasos">Cómo agendar</a>
+        <a href="#requisitos">Requisitos</a>
+        <a href="#faq">Preguntas</a>
+        <a href="#terminos">Términos</a>
+        <a href="#privacidad">Privacidad</a>
+      </div>
+    </nav>
+
+    <div class="eyebrow">Guía informativa · Trámite de pasaporte</div>
+    <h1 id="main">Todo lo que necesitas saber antes de agendar tu cita de pasaporte</h1>
+    <p class="hero-sub">Una guía clara, en español, sobre el proceso general de agendamiento: pasos habituales, documentos que suelen pedirte y preguntas frecuentes. No tramitamos citas ni pasaportes: solo te orientamos para que llegues preparado a la oficina oficial.</p>
+    <div class="hero-cta">
+      <a href="#pasos" class="btn btn-primary">Ver los pasos</a>
+      <a href="#terminos" class="btn btn-ghost">Términos y privacidad</a>
+    </div>
+
+    <div class="seal" aria-hidden="true">
+      <svg viewBox="0 0 150 150">
+        <g class="seal-ring">
+          <circle cx="75" cy="75" r="66" fill="none" stroke="#C9A96B" stroke-width="1.2" stroke-dasharray="2 5"/>
+          <path id="circlePath" fill="none" d="M 75,75 m -52,0 a 52,52 0 1,1 104,0 a 52,52 0 1,1 -104,0"/>
+          <text font-family="IBM Plex Mono" font-size="8.2" fill="#C9A96B" letter-spacing="2.5">
+            <textPath href="#circlePath" startOffset="0%">GUÍA INFORMATIVA · PASAVOGINFO · DISEÑO ÚNICO ·</textPath>
+          </text>
+        </g>
+        <circle cx="75" cy="75" r="40" fill="none" stroke="#C9A96B" stroke-width="1.2"/>
+        <text x="75" y="70" text-anchor="middle" font-family="Fraunces" font-weight="600" font-size="15" fill="#F4EFE2">SELLO</text>
+        <text x="75" y="88" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#C9A96B">DIGITAL</text>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<div class="perf" role="presentation"></div>
+
+<div class="disclaimer">
+  <div class="wrap">
+    <span class="ico" aria-hidden="true">!</span>
+    <div>
+      <div class="label">Aviso obligatorio</div>
+      <h4>PasavogInfo NO es un sitio oficial ni gubernamental.</h4>
+      <p>Somos un sitio informativo independiente y <strong>no tenemos ninguna afiliación con el gobierno, consulados ni autoridades de pasaportes</strong> de ningún país. No agendamos citas, no cobramos por reservar turnos y nunca solicitamos tu huella dactilar, datos bancarios o documentos originales. Para agendar tu cita real, hazlo siempre a través del portal oficial de la autoridad de pasaportes de tu país.</p>
+    </div>
   </div>
 </div>
+
+<main>
+
+  <section id="pasos">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">Proceso general</div>
+        <h2>Cómo suele funcionar el agendamiento de una cita</h2>
+        <p>El procedimiento varía según el país y la oficina, pero la mayoría de los sistemas oficiales siguen una lógica parecida. Aquí tienes el recorrido típico, paso a paso.</p>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="stamp"><span class="num">01</span></div>
+          <div>
+            <h3>Reúne tus documentos con anticipación</h3>
+            <p>Antes de entrar al portal oficial, ten a mano tu identificación vigente, acta o documento de nacimiento, comprobante de domicilio y una fotografía reciente si el sistema la solicita.</p>
+            <div class="tip">Consejo: revisa la lista oficial de requisitos de tu país antes de continuar.</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="stamp"><span class="num">02</span></div>
+          <div>
+            <h3>Ingresa al portal oficial de tu país</h3>
+            <p>Busca el sitio web oficial de la autoridad de pasaportes o relaciones exteriores de tu país (normalmente un dominio gubernamental). Evita enlaces de terceros que prometan "citas garantizadas" a cambio de un pago.</p>
+            <div class="tip">Consejo: los sistemas oficiales de agendamiento suelen ser gratuitos.</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="stamp"><span class="num">03</span></div>
+          <div>
+            <h3>Selecciona oficina, fecha y horario</h3>
+            <p>Elige la sede más conveniente, revisa la disponibilidad de fechas y confirma un horario. Algunos sistemas permiten reprogramar si tu situación cambia.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="stamp"><span class="num">04</span></div>
+          <div>
+            <h3>Confirma y guarda tu comprobante</h3>
+            <p>Al finalizar recibirás un folio o número de confirmación. Guárdalo e imprímelo o ten una copia digital: normalmente te lo pedirán al llegar a tu cita.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="stamp"><span class="num">05</span></div>
+          <div>
+            <h3>Acude puntual el día de tu cita</h3>
+            <p>Llega con tiempo, lleva los documentos originales y sus copias, y sigue las indicaciones del personal de la oficina. Ahí es donde, si corresponde, se toman tus datos biométricos oficiales.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="perf navy-on-paper" role="presentation" style="background-color:var(--navy);"></div>
+
+  <section id="requisitos" style="background:var(--paper-light);">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">Antes de tu cita</div>
+        <h2>Documentos que suelen solicitarte</h2>
+        <p>Esta lista es orientativa y general. Los requisitos exactos dependen de tu país, tu edad y si es tu primer pasaporte o una renovación — confírmalos siempre en la fuente oficial.</p>
+      </div>
+
+      <div class="req-grid">
+        <div class="req-card">
+          <span class="tag">Identidad</span>
+          <h4>Identificación oficial vigente</h4>
+          <p>Documento de identidad o credencial de elector en buen estado, dentro de su vigencia.</p>
+        </div>
+        <div class="req-card">
+          <span class="tag">Origen</span>
+          <h4>Acta o certificado de nacimiento</h4>
+          <p>Original y copia, en algunos casos con apostilla si fue emitido en otro país.</p>
+        </div>
+        <div class="req-card">
+          <span class="tag">Domicilio</span>
+          <h4>Comprobante de domicilio reciente</h4>
+          <p>Recibo de servicios, estado de cuenta u otro documento aceptado por tu oficina local.</p>
+        </div>
+        <div class="req-card">
+          <span class="tag">Pago</span>
+          <h4>Comprobante de derechos, si aplica</h4>
+          <p>Algunos trámites requieren un pago previo de derechos ante la autoridad correspondiente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">Dudas frecuentes</div>
+        <h2>Preguntas frecuentes</h2>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>¿PasavogInfo agenda mi cita por mí?</summary>
+          <div class="a">No. Somos un sitio informativo. No gestionamos, reservamos ni garantizamos citas de pasaporte; te explicamos el proceso para que lo hagas tú mismo en el portal oficial correspondiente.</div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Necesito pagar algo en este sitio?</summary>
+          <div class="a">No. La información de esta guía es gratuita. Cualquier pago relacionado con tu pasaporte se realiza únicamente a través de los canales oficiales de tu gobierno.</div>
+        </details>
+        <details class="faq-item">
+          <summary>¿PasavogInfo me pide mi huella dactilar o datos biométricos?</summary>
+          <div class="a">No, nunca. Los datos biométricos (como la huella dactilar) solo se toman de forma presencial en la oficina oficial el día de tu cita, nunca a través de un sitio web.</div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Los pasos son iguales en todos los países?</summary>
+          <div class="a">La lógica general es similar, pero los formularios, requisitos y costos cambian según el país y la oficina. Usa esta guía como referencia general, no como instrucción oficial.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <div class="perf" role="presentation"></div>
+
+  <section id="terminos" class="legal">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">Documento legal</div>
+        <h2>Términos y condiciones</h2>
+      </div>
+      <div class="legal-box">
+        <span class="legal-updated">Última actualización: agosto de 2026</span>
+
+        <h3>1. Naturaleza del sitio</h3>
+        <p>PasavogInfo es un sitio web de carácter exclusivamente informativo. Su único propósito es orientar a las personas usuarias sobre el proceso general para agendar una cita de pasaporte. No somos una entidad gubernamental, consular ni estamos afiliados a ninguna oficina oficial de expedición de pasaportes.</p>
+
+        <h3>2. Uso permitido</h3>
+        <p>El contenido de este sitio puede consultarse libremente con fines personales e informativos. No está permitido reproducir el contenido haciéndolo pasar por un servicio oficial de agendamiento de citas.</p>
+
+        <h3>3. No prestamos servicios de gestión</h3>
+        <ul>
+          <li>No agendamos, reservamos, confirmamos ni cancelamos citas de pasaporte.</li>
+          <li>No cobramos comisiones ni tarifas por trámites de pasaporte.</li>
+          <li>No solicitamos ni almacenamos documentos de identidad, huellas dactilares ni datos biométricos.</li>
+        </ul>
+
+        <h3>4. Exactitud de la información</h3>
+        <p>Hacemos un esfuerzo razonable por mantener la información actualizada, pero los requisitos y procesos oficiales pueden cambiar sin previo aviso. La fuente oficial y vinculante es siempre la autoridad de pasaportes de tu país.</p>
+
+        <h3>5. Limitación de responsabilidad</h3>
+        <p>PasavogInfo no se hace responsable por decisiones tomadas con base únicamente en esta guía, ni por citas perdidas, rechazadas o reprogramadas por la autoridad oficial correspondiente.</p>
+
+        <h3>6. Enlaces a terceros</h3>
+        <p>Cuando este sitio mencione portales gubernamentales, se recomienda siempre verificar que la dirección corresponda a un dominio oficial antes de introducir cualquier dato personal.</p>
+
+        <h3>7. Modificaciones</h3>
+        <p>Estos términos pueden actualizarse periódicamente. El uso continuado del sitio después de una actualización implica la aceptación de los términos vigentes.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="privacidad" class="legal" style="padding-top:0;">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">Documento legal</div>
+        <h2>Política de privacidad</h2>
+      </div>
+      <div class="legal-box">
+        <span class="legal-updated">Última actualización: agosto de 2026</span>
+
+        <div class="legal-cols">
+          <div>
+            <h3>Qué información recopilamos</h3>
+            <p>Al ser un sitio informativo, PasavogInfo no requiere que crees una cuenta ni que envíes documentos personales para consultar esta guía. Podemos recopilar datos técnicos básicos y anónimos de navegación (como tipo de dispositivo o páginas visitadas) con fines estadísticos.</p>
+
+            <h3>Lo que nunca solicitamos</h3>
+            <ul>
+              <li>Huellas dactilares ni ningún dato biométrico.</li>
+              <li>Números de documento de identidad o pasaporte.</li>
+              <li>Datos bancarios o de tarjetas de pago.</li>
+              <li>Contraseñas de portales gubernamentales.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Cómo usamos la información técnica</h3>
+            <p>La información técnica y anónima que pudiéramos recopilar se utiliza únicamente para entender qué contenido resulta útil y mejorar la claridad de esta guía.</p>
+
+            <h3>Tus derechos</h3>
+            <p>Puedes navegar este sitio sin proporcionar ningún dato personal. Si en algún momento incorporamos un formulario de contacto, indicaremos claramente qué datos se solicitan y con qué propósito, y podrás solicitar su eliminación en cualquier momento.</p>
+
+            <h3>Contacto</h3>
+            <p>Ante cualquier duda sobre esta política, puedes escribirnos a través de los canales de contacto que se habiliten en este sitio.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="brand">✦ PasavogInfo</div>
+        <p class="foot-desc">Guía informativa e independiente sobre el proceso de agendamiento de citas de pasaporte. No somos una entidad oficial.</p>
+      </div>
+      <div class="foot-links">
+        <div>
+          <h5>Guía</h5>
+          <a href="#pasos">Cómo agendar</a>
+          <a href="#requisitos">Requisitos</a>
+          <a href="#faq">Preguntas frecuentes</a>
+        </div>
+        <div>
+          <h5>Legal</h5>
+          <a href="#terminos">Términos y condiciones</a>
+          <a href="#privacidad">Política de privacidad</a>
+        </div>
+        <div>
+          <h5>Ubicación</h5>
+          <p style="font-size:14px; color:rgba(244,239,226,0.72); line-height:1.6;">Carrera 34 #12-78</p>
+        </div>
+      </div>
+    </div>
+    <p class="fine">PasavogInfo · Carrera 34 #12-78 · Sitio informativo independiente, sin fines de gestión de trámites · No afiliado a ninguna entidad gubernamental ni consular · Verifica siempre la información oficial en el portal de tu país antes de tomar cualquier decisión.</p>
+  </div>
+</footer>
+
+</body>
+</html>
